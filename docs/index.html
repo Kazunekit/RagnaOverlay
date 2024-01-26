@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <link  href="style.css" rel="stylesheet">
+  </head>
+  <body x-data="ragnarock" style="background-color: pink;">
+    <div class="hammer">
+      <div class="hammer-mask">
+        <div class="lvl2">
+          <div class="lvl2-constraint">
+            <div class="lvl2-color" x-bind:style="`--progress: ${lvl2_percent()}%;`">
+            </div>
+          </div>
+        </div>
+        <div class="lvl1">
+          <div class=lvl1-constraint>
+            <div class="lvl1-color" x-bind:style="`height: ${lvl1_percent()}%;`"></div>
+          </div>
+        </div>
+        <div class="lvlup" x-bind:class='lvl_class();'></div>
+        <img class="level" src="hammer.png"/>
+      </div>
+      <div class="effects" x-bind:class='lvl_class_toggle();'></div>
+
+      <div class="msg" x-bind:style="`top: ${$store.position.top}%; left: ${$store.position.left}%;`">
+        <span class="perfect">PERFECT!</span>
+        <span class="correct">GOOD!</span>
+        <span class="miss">MISS!</span>
+        <span class="combo">COMBO!</span>
+      </div>
+    </div>
+
+    <div class="chart-container" height="200px">
+      <canvas id="myChart"></canvas>
+    </div>
+    <div>
+      <button @click="reset()">Reset</button>
+      <button @click="correct()">Correct</button>
+      <button @click="perfect()">Perfect</button>
+      <button @click="miss()">Miss</button>
+      <button @click="combo()">Combo</button>
+
+      <p>
+      Speed: <span x-text="speed"></span></br>
+      Combo count: <span x-text="combos.count"></span></br>
+      lvl1: <span x-text="combos.lvl1.on"></span></br>
+      lvl1 progress: <span x-text="combos.lvl1.progress"></span></br>
+      lvl1 needs: <span x-text="combos.lvl1.needs"></span></br>
+      lvl2: <span x-text="combos.lvl2.on"></span></br>
+      lvl2 progress: <span x-text="combos.lvl2.progress"></span></br>
+      lvl2 needs: <span x-text="combos.lvl1.needs * 2"></span></br>
+      </p>
+    </div>
+    <div>
+    </div>
+  </body>
+</html>

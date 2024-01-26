@@ -1,0 +1,161 @@
+@font-face {
+  font-family: "CarterOne";
+  src: url('CarterOne-Regular.ttf') format('truetype');
+
+}
+@font-face {
+  font-family: "Gelio Pasteli";
+  src: url('Gelio Pasteli.ttf') format('truetype');
+
+}
+@font-face {
+  font-family: "Gelio Retsina";
+  src: url('Gelio Retsina.ttf') format('truetype');
+
+}
+@font-face {
+  font-family: "Viking Hell";
+  src: url('Viking Hell.ttf') format('truetype');
+
+}
+:root {
+  --lvl1-color: #20bbff;
+  --lvl2-color: #ffcf22;
+}
+.level {
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.lvl1-color {
+  background-color: var(--lvl1-color);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+}
+.lvl1-constraint {
+  position: absolute;
+  bottom: 35%;
+  height: 27%;
+  width: 100%
+}
+.lvl1 {
+  mask-image: url("hammer-lvl1-mask.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.lvl2-color {
+  background-color: var(--lvl2-color);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(var(--lvl2-color) var(--progress), black 0deg);
+}
+.lvl2-constraint {
+  position: absolute;
+  top: 10%;
+  height: 30%;
+  width: 30%;
+  left: 28%;
+  transform: rotate3d(0, 1, 0, 20deg) rotate3d(1, 0 , 0, 10deg);
+}
+.lvl2 {
+  mask-image: url("hammer-lvl2-mask.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.lvlup.lvl1-ready {
+  background-color: var(--lvl1-color);
+}
+.lvlup.lvl2-ready {
+  background-color: var(--lvl2-color);
+}
+.lvlup {
+  mask-image: url("hammer-lvlup-mask.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.hammer-mask {
+  background-color: black;
+  mask-image: url("hammer-mask.png");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  height: 100%;
+  position: relative;
+}
+.msg {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  font-family: "Gelio Pasteli";
+  font-size: 6em;
+  visibility: hidden;
+}
+.msg > span {
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+}
+.msg .perfect {
+  color: var(--lvl2-color);
+}
+.msg .correct {
+  color: var(--lvl1-color);
+}
+.msg .miss {
+  color: red;
+}
+.msg .combo {
+  color: #00ff10;
+}
+@keyframes blinkOut{
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.hammer {
+  height: 500px;
+  aspect-ratio: 1/1;
+  position: relative;
+
+}
+.effects {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 1;
+}
+.effects.lvl1-ready {
+  background-image: url("lvl1.png");
+  opacity: 0;
+  animation:blinkOut 2s cubic-bezier(.14,-0.93,0,1);
+}
+.effects.lvl2-ready {
+  background-image: url("lvl2.png");
+  opacity: 0;
+  animation: blinkOut 2s cubic-bezier(.14,-0.93,0,1);
+}
+
+.chart-container {
+  position: relative;
+  height: 200px;
+}
