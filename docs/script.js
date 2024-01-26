@@ -151,12 +151,13 @@ document.addEventListener('alpine:init', () => {
       if (this.combos.lvl1.on == false && this.combos.lvl2.on == false) {
         return;
       }
-      var diff = +((this.speed / 4).toFixed(1));
+      var diff = +((this.speed * 3.0 / 4).toFixed(1));
+      var time = 1000;
       if (this.combos.lvl2.on == true) {
-        diff = +((this.speed * 3 / 4).toFixed(1));
+        time = 4000;
       }
       this.speed += diff;
-      setTimeout(restore_speed, 300, this, diff);
+      setTimeout(restore_speed, time, this, diff);
       this.combos.lvl1.on = false;
       this.combos.lvl1.progress = 0;
       this.combos.lvl2.on = false;
