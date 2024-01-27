@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     datasets: [{
       data: [],
       fill: true,
-      tension: 0.5,
+      tension: 0.2,
       spanGaps: true,
       borderColor: '#20bbff',
       segment: {
@@ -15,10 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }]
   };
+  Chart._adapters._date.override({
+    format: function(time, fmt) {
+      return 0;
+    }
+  });
   window.chart = new Chart(ctx, {
     type: 'line',
     data,
     options: {
+      hover: {
+        mode: null
+      },
+      interaction: {
+        mode: 'index',
+      },
       maintainAspectRatio: false,
       animation: false,
       elements: {
@@ -38,12 +49,20 @@ document.addEventListener('DOMContentLoaded', () => {
           },
           display: false,
           grid: {},
+          ticks: {
+            display: false,
+            source: 'labels',
+          },
         },
         y: {
           display: false,
           min: 0,
           grid: {},
-          suggestedMax: 20
+          suggestedMax: 20,
+          ticks: {
+            display: false,
+            source: 'labels',
+          }
         }
       }
     }
@@ -54,7 +73,7 @@ function addData(chart, label, newData) {
   chart.data.datasets.forEach((dataset) => {
     dataset.data.push(newData);
   });
-  chart.update();
+  window.requestAnimationFrame(() => chart.update());
 }
 
 function removeData(chart) {
@@ -62,21 +81,17 @@ function removeData(chart) {
   chart.data.datasets.forEach((dataset) => {
     dataset.data.pop();
   });
-  chart.update();
+  window.requestAnimationFrame(() => chart.update())
 }
 function clearData(chart) {
   chart.data.labels.length = 0;
   chart.data.datasets.forEach((dataset) => {
     dataset.data.length = 0;
   });
-  chart.update();
+  window.requestAnimationFrame(() => chart.update())
 
 }
 document.addEventListener('alpine:init', () => {
-  function restore_speed(struct, speed_diff) {
-    struct.speed -= speed_diff;
-    struct.speed = +(struct.speed.toFixed(1));
-  }
   var cntr = 0;
   Alpine.data('ragnarock', () => ({
     combos: {
@@ -96,6 +111,9 @@ document.addEventListener('alpine:init', () => {
     init() {
       this.$watch('speed', (value) => addData(window.chart, 0, value));
     },
+    restore_speed (speed_diff) {
+      this.speed = +((this.speed - speed_diff).toFixed(1));
+    },
 
     reset() {
       clearData(window.chart);
@@ -106,11 +124,14 @@ document.addEventListener('alpine:init', () => {
       this.combos.lvl1.needs = 15;
       this.combos.lvl2.on = false;
       this.combos.lvl2.progress = 0;
-      if (this.chart_updater) clearInterval(this.chart_updater);
+      this.stop();
       this.chart_updater = setInterval(function(that) {
         that.update_chart();
       }, 50, this);
 
+    },
+    stop() {
+      if (this.chart_updater) clearInterval(this.chart_updater);
     },
     miss() {
       this.combos.lvl1.on = false;
@@ -119,7 +140,7 @@ document.addEventListener('alpine:init', () => {
       this.combos.lvl2.progress = 0;
       var diff = +((this.speed/4.0).toFixed(1));
       this.speed -= diff;
-      setTimeout(restore_speed, 300, this, -diff);
+      setTimeout(() => this.restore_speed(-diff), 300);
     },
 
     add_point(point){
@@ -145,7 +166,7 @@ document.addEventListener('alpine:init', () => {
       this.add_point(1.0);
       var diff = +((this.speed/4.0).toFixed(1));
       this.speed += diff;
-      setTimeout(restore_speed, 300, this, diff);
+      setTimeout(() => this.restore_speed(diff), 300);
     },
     combo() {
       if (this.combos.lvl1.on == false && this.combos.lvl2.on == false) {
@@ -157,7 +178,7 @@ document.addEventListener('alpine:init', () => {
         time = 4000;
       }
       this.speed += diff;
-      setTimeout(restore_speed, time, this, diff);
+      setTimeout(() => this.restore_speed(diff), time);
       this.combos.lvl1.on = false;
       this.combos.lvl1.progress = 0;
       this.combos.lvl2.on = false;
