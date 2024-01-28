@@ -22,6 +22,10 @@
   --lvl1-color: #20bbff;
   --lvl2-color: #ffcf22;
 }
+body {
+  display: flex;
+  gap: 30px;
+}
 .level {
   height: 100%;
   position: absolute;
@@ -41,8 +45,11 @@
   width: 100%
 }
 .lvl1 {
+  -webkit-mask-image: url("hammer-lvl1-mask.png");
   mask-image: url("hammer-lvl1-mask.png");
+  -webkit-mask-size: contain;
   mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   height: 100%;
   position: absolute;
@@ -67,8 +74,11 @@
   transform: rotate3d(0, 1, 0, 20deg) rotate3d(1, 0 , 0, 10deg);
 }
 .lvl2 {
+  -webkit-mask-image: url("hammer-lvl2-mask.png");
   mask-image: url("hammer-lvl2-mask.png");
+  -webkit-mask-size: contain;
   mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   height: 100%;
   position: absolute;
@@ -82,9 +92,11 @@
   background-color: var(--lvl2-color);
 }
 .lvlup {
+  -webkit-mask-image: url("hammer-lvlup-mask.png");
   mask-image: url("hammer-lvlup-mask.png");
+  -webkit-mask-size: contain;
   mask-size: contain;
-  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
   height: 100%;
   position: absolute;
   top: 0;
@@ -92,22 +104,51 @@
 }
 .hammer-mask {
   background-color: black;
+  -webkit-mask-image: url("hammer-mask.png");
   mask-image: url("hammer-mask.png");
+  -webkit-mask-size: contain;
   mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   height: 100%;
   position: relative;
+}
+.song {
+  font-family: "CarterOne";
+  font-size: 2em;
+  color: white;
+}
+.speed, .max_speed {
+  font-family: "CarterOne";
+  font-size: 1em;
+  color: white;
+}
+.max_speed {
+  font-size: 1em;
 }
 .msg {
   height: 100%;
   width: 100%;
   position: absolute;
   font-family: "Gelio Pasteli";
-  font-size: 6em;
-  visibility: hidden;
+  font-size: 4em;
+  text-transform: uppercase;
+  top: 0;
+}
+.msg > span, .song, .speed, .max_speed, .song > * {
+  -webkit-text-stroke: thin black;
+}
+@keyframes blinkInBlinkOut{
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .msg > span {
-  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+  animation: blinkInBlinkOut 0.8s cubic-bezier(.14,-0.93,0,1);
+  position: absolute;
 }
 .msg .perfect {
   color: var(--lvl2-color);
@@ -130,10 +171,10 @@
   }
 }
 .hammer {
-  height: 500px;
+  height: 30vh;
+  min-height: 250px;
   aspect-ratio: 1/1;
   position: relative;
-
 }
 .effects {
   position: absolute;
@@ -156,6 +197,9 @@
 }
 
 .chart-container {
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   height: 200px;
 }

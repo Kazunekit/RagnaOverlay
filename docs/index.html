@@ -7,7 +7,7 @@
     <script src="script.js"></script>
     <link  href="style.css" rel="stylesheet">
   </head>
-  <body x-data="ragnarock" style="background-color: pink;">
+  <body x-data="ragnarock">
     <div class="hammer">
       <div class="hammer-mask">
         <div class="lvl2">
@@ -24,20 +24,37 @@
         <div class="lvlup" x-bind:class='lvl_class();'></div>
         <img class="level" src="hammer.png"/>
       </div>
-      <div class="effects" x-bind:class='lvl_class_toggle();'></div>
+      <div class="effects lvl1-ready" x-show='is_lvl1_ready'></div>
+      <div class="effects lvl2-ready" x-show='is_lvl2_ready'></div>
 
-      <div class="msg" x-bind:style="`top: ${$store.position.top}%; left: ${$store.position.left}%;`">
-        <span class="perfect">PERFECT!</span>
-        <span class="correct">GOOD!</span>
-        <span class="miss">MISS!</span>
-        <span class="combo">COMBO!</span>
+      <div class="msg">
+        <template x-for="event in last_event"> 
+          <span x-bind:class="event" x-text="event" x-bind:style="`top: ${Math.floor(Math.random()*80)}%; left: ${Math.floor(Math.random()*40)}%;`"></span>
+        </template>
+        <span class="perfect" x-show="last_event == 'perfect'">PERFECT!</span>
+        <span class="correct" x-show="last_event == 'correct'" x-transition>GOOD!</span>
+        <span class="miss" x-show="last_event == 'miss'" x-transition>MISS!</span>
+        <span class="combo" x-show="last_event == 'combo'" x-transition>COMBO!</span>
       </div>
     </div>
-
-    <div class="chart-container" height="200px">
-      <canvas id="myChart"></canvas>
-    </div>
     <div>
+      <div class="song" x-show="song.name" >
+        <span x-text="song.band"></span><br/>
+        <span x-text="song.name"></span>
+      </div>
+      <div class="speed">
+        Speed: <span x-text="speed"></span><br/>
+      </div>
+      <div class="max_speed">
+        Max Speed: <span x-text="max_speed"></span><br/>
+        Combo counter: <span x-text="combos.count"></span><br/>
+        Combo progress: <span x-text="combos.progress"></span> (level 1: <span x-text="combos.needed"></span>/level 2: <span x-text="combos.needed*2"></span>)
+      </div>
+      <div class="chart-container" height="200px">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+    <!--div>
       <button @click="reset()">Reset</button>
       <button @click="correct()">Correct</button>
       <button @click="perfect()">Perfect</button>
@@ -48,15 +65,16 @@
       <p>
       Speed: <span x-text="speed"></span></br>
       Combo count: <span x-text="combos.count"></span></br>
-      lvl1: <span x-text="combos.lvl1.on"></span></br>
-      lvl1 progress: <span x-text="combos.lvl1.progress"></span></br>
-      lvl1 needs: <span x-text="combos.lvl1.needs"></span></br>
-      lvl2: <span x-text="combos.lvl2.on"></span></br>
-      lvl2 progress: <span x-text="combos.lvl2.progress"></span></br>
-      lvl2 needs: <span x-text="combos.lvl1.needs * 2"></span></br>
+      Progress: <span x-text="combos.progress"></span></br>
+      Level needs: <span x-text="combos.needed"></span></br>
+      lvl1: <span x-text="is_lvl1_ready()"></span></br>
+      lvl2: <span x-text="is_lvl2_ready()"></span></br>
       </p>
-    </div>
-    <div>
-    </div>
+      <ul>
+        <template x-for="msg in messages">
+          <li x-html="msg"></li>
+      </template>
+      </ul>
+    </div-->
   </body>
 </html>
