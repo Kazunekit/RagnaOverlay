@@ -117,7 +117,7 @@ document.addEventListener('alpine:init', () => {
     combos: {
       count: 0,
       progress: 0,
-      needed: 0,
+      needed: 15,
     },
     song: {
       band: "",
@@ -129,6 +129,7 @@ document.addEventListener('alpine:init', () => {
     last_event: {},
     chart_updater: null,
     init() {
+      reset()
       connect(this)
       this.$watch('speed', (value) => addData(window.chart, 0, value));
       this.$watch('speed', (value) => this.max_speed = this.max_speed < value ? value: this.max_speed);
@@ -182,16 +183,18 @@ document.addEventListener('alpine:init', () => {
     reset() {
       clearData(window.chart);
       this.speed = 10;
-      this.max_speed = 10;
+      this.max_speed = this.speed;
       this.last_event = {}
       this.combos.count = 0;
-      this.combos.progress = 0;
-      this.combos.needed = 15;
+      this.reset_progress()
       this.stop();
       this.chart_updater = setInterval(function(that) {
         that.update_chart();
       }, 50, this);
-
+    },
+    reset_progress() {
+      this.combos.progress = 0
+      this.combos.needed = 15 + 10 * this.combos.count
     },
     stop() {
       if (this.chart_updater) clearInterval(this.chart_updater);
@@ -237,8 +240,7 @@ document.addEventListener('alpine:init', () => {
       this.speed += diff;
       setTimeout(() => this.restore_speed(diff), time);
       this.combos.count++;
-      this.combos.progress = 0
-      this.combos.needed = 15 + 10 * this.combos.count;
+      this.reset_progress()
     },
     lvl1_percent() {
       return this.combos.progress / this.combos.needed * 100;
