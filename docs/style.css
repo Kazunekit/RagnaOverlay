@@ -71,7 +71,7 @@ body {
   height: 30%;
   width: 30%;
   left: 28%;
-  transform: rotate3d(0, 1, 0, 20deg) rotate3d(1, 0 , 0, 10deg);
+  transform: rotate3d(0, 0, 1, 30deg) rotate3d(0, 1, 0, 20deg) rotate3d(1, 0 , 0, 10deg);
 }
 .lvl2 {
   -webkit-mask-image: url("hammer-lvl2-mask.png");
