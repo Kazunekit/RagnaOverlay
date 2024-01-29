@@ -129,7 +129,7 @@ document.addEventListener('alpine:init', () => {
     last_event: {},
     chart_updater: null,
     init() {
-      reset()
+      this.reset()
       connect(this)
       this.$watch('speed', (value) => addData(window.chart, 0, value));
       this.$watch('speed', (value) => this.max_speed = this.max_speed < value ? value: this.max_speed);
