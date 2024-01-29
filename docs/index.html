@@ -24,8 +24,8 @@
         <div class="lvlup" x-bind:class='lvl_class();'></div>
         <img class="level" src="hammer.png"/>
       </div>
-      <div class="effects lvl1-ready" x-show='is_lvl1_ready'></div>
-      <div class="effects lvl2-ready" x-show='is_lvl2_ready'></div>
+      <div class="effects" x-show='is_lvl1_ready'></div>
+      <div class="effects" x-show='is_lvl2_ready'></div>
 
       <div class="msg">
         <template x-for="event in last_event"> 

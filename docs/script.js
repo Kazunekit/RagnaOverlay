@@ -181,7 +181,9 @@ document.addEventListener('alpine:init', () => {
     },
 
     reset() {
-      clearData(window.chart);
+      if ("chart" in window) {
+        clearData(window.chart);
+      }
       this.speed = 10;
       this.max_speed = this.speed;
       this.last_event = {}
